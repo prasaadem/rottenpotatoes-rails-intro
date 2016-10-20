@@ -11,7 +11,17 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+#Made changes here  
+  	setup = Movie.set_options(params, session)
+  	
+    @ratings = Movie.ratings
+    @filters = setup[:ratings]
+    @movies = Movie.movies(@filters, setup[:order_by])
+    
+    session[:ratings] = setup[:ratings]
+    session[:order_by] = setup[:order_by]
+    
+    
   end
 
   def new
